@@ -7,6 +7,12 @@ class Contact {
     this.phone = phone;
     this.relation = relation;
   }
+  //  methods
+  //   shorthand of writing a function
+  toString() {
+    // return a string of name and email property
+    return `${this.name} <${this.email}>`;
+  }
 }
 
 // addressbook class
@@ -23,6 +29,44 @@ class AddressBook {
   deleteAt = function(index) {
     this.contacts.splice(index, 1);
   };
+  //   returns the contact based on the provided index
+  getAt(index) {
+    return this.contacts[index];
+  }
+  //   returns the contact with that name
+  findContactByName(name) {
+    // using a for of to find it
+    for (let contact of this.contacts) {
+      if (contact.name === name) {
+        return contact;
+      }
+    }
+    // using an array.filter to find it
+    // this.contacts.filter(contact => {
+    //   if (contact.name === name) {
+    //     return contact;
+    //   }
+    // });
+  }
+  findContactsByRelation(relation) {
+    let contactsToReturn = [];
+    for (let contact of this.contacts) {
+      if (contact.relation === relation) {
+        return contact;
+      }
+    }
+    return contactsToReturn;
+  }
+  //   returns an array of all contacts that include the given text anywhere in the name,email,phone, or relation
+  searchContacts(text) {
+    return this.contacts.filter(contact => {
+      for (let property in contact) {
+        if (contact[property].includes(text)) {
+          return contact;
+        }
+      }
+    });
+  }
 }
 
 // instnce an AddressBook Object
@@ -45,4 +89,24 @@ function print(addressBookReference) {
   });
 }
 // using the print function
-print(melsBook);
+// print(melsBook);
+
+// **
+// EXTENDED CHALLENGES
+//
+
+// string showing only name and email of the entire contact
+// for(let contact of melsBook.contacts) {
+//     console.log(contact.toString());
+// }
+
+// calling on the method to find the entire contact by name
+// console.log(melsBook.findContactByName("Jessica"));
+
+// calling on the method to find contact by relation
+// for of loop will stop at the first one --- finds first "sister" and breaks out of the loop
+// for each will loop over ALL instances of "sister" ---- so Bailey would show up too
+// console.log(melsBook.findContactsByRelation("sister"));
+
+// calling on the contact that has that specific text (so moms phone number is the specific text)
+console.log(melsBook.searchContacts("313.969.8258"));
