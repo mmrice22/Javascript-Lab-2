@@ -118,6 +118,7 @@ console.log(melsBook);
 function display() {
 let section = document.querySelector(".contact-container");
 section.innerHTML = "";
+let counter = 0;
 for (let contact of melsBook.contacts) {
   let card = document.createElement("div");
   let name = document.createElement("p");
@@ -134,17 +135,25 @@ for (let contact of melsBook.contacts) {
   // section.append(card);
   let relation = document.createElement("p");
   relation.innerText = `Relation: ${contact.relation}`;
+  // <i class="fas fa-trash"></i>
+  let trash = document.createElement("i");
+  trash.classList.add("fas", "fa-trash");
+  counter++;
   card.append(name, email, phone, relation)
   section.append(card);
+  card.setAttribute("class","cards");
   }
 }
 display();
 
 
 let form = document.querySelector("form");
-form.addEventListener("submit", () => {
-const formData = new formData (form);
-melsBook.add(formData.get("name"), formData.get("email"), formData.get("phone"), formData.get("relation"))
+form.addEventListener("submit", (event) => {
+event.preventDefault();
+const formData = new FormData(form);
+// console.log(formData);
+melsBook.add(formData.get("name"), formData.get("email"), formData.get("phone"), formData.get("relation"));
+form.reset();
 display();
 });
 
